@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<BuildToolset>v142</BuildToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<PlatformToolset>$(BuildToolset)</PlatformToolset>
+		<CharacterSet>NotSet</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<PlatformToolset>$(BuildToolset)</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>NotSet</CharacterSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<BuildMacro Include="BuildToolset">
+			<Value>$(BuildToolset)</Value>
+		</BuildMacro>
+	</ItemGroup>
+</Project>

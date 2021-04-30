@@ -1,0 +1,9 @@
+**/output
+**/bin
+**/lib
+
+**/config_site.h
+**/config.h
+
+**/.vs
+**/*.vcxproj.user
