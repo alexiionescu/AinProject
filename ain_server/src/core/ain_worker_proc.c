@@ -82,7 +82,7 @@ ain_result_t ain_worker_proc(void* data) {
 								&& wdata->time - conn->time > 0)
 							ain_conn_accept(conn); //re-use closed socket
 						else if (conn->keep_alive && 
-									conn->connected && wdata->time - conn->time > 5)
+									conn->connected && wdata->time - conn->time > 10)
 							ain_conn_close(conn); //keep-alive close
 						conn++;
 					}

@@ -24,7 +24,7 @@
 #endif
 
 #ifndef AIN_WORKER_CONNECTIONS
-#define AIN_WORKER_CONNECTIONS 1024 
+#define AIN_WORKER_CONNECTIONS 4096 
 // total no of connections (sockets) for all listeners
 #endif
 

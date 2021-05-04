@@ -50,7 +50,10 @@ void ain_conn_close(ain_conn_t* conn)
 	ain_socket_close_grace(conn->fd);
 	conn->fd = (ain_fd_t)-1;
 	conn->time = conn->ls->wdata->time;
-	conn->proto.proto_handler(conn, NULL, 0);
+	if (conn->connected) {
+		conn->proto.proto_handler(conn, NULL, 0);
+		conn->connected = 0;
+	}
 }
 
 ain_result_t ain_conn_onread(ain_event_t* evt)

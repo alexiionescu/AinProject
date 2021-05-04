@@ -164,7 +164,7 @@ ain_result_t on_http(ain_conn_t* conn, uint8_t* buf, uint32_t size)
 	conn->keep_alive = 1;
 	if (!conn->write_evt)
 		//conn->write_evt = ain_pool_alloc(conn->pool, 1);
-		testHTMLGet(conn, 20); //dummy write event response
+		testHTMLGet(conn, 200); //dummy write event response
 
 	return AIN_OK;
 }
@@ -179,7 +179,7 @@ ain_result_t on_ain(ain_conn_t* conn, uint8_t* buf, uint32_t size)
 		conn->ls->wdata->quit = AIN_WORKER_QUIT_CMD;
 		return AIN_ERROR;
 	}
-	return AIN_OK;
+	return AIN_ERROR;
 }
 
 ain_result_t on_sip(ain_conn_t* conn, uint8_t* buf, uint32_t size)
