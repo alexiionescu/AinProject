@@ -19,12 +19,15 @@ int main(int argc, char** argv)
 	if(ain_is_test_unit())
 		return (int)ain_test_unit_process();
 
-	if (!ain_is_debug_child())
-	{
-		ain_process_t* child = ain_process_fork();
-		if (child)
-			return (int)ain_parent_process(child);
-	}
+#ifdef _MSC_VER
+	if (ain_is_debug_child())
+		return (int)ain_child_process();
+
+	ain_process_t* child = ain_process_fork();
+	if (child)
+		return (int)ain_parent_process(child);
 	
-	return (int)ain_child_process();
+#elif __GNUC__
+	return (int)ain_parent_process_ux();
+#endif	
 }

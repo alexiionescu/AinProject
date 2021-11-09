@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+    },
+    "C_Cpp.default.cppStandard": "gnu++14",
+    "C_Cpp.default.cStandard": "gnu11",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}

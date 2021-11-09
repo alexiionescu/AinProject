@@ -21,7 +21,12 @@ void ain_destroy_io_queue(ain_io_t* aio)
 	free(aio);
 }
 
-ain_result_t ain_register_io_events(ain_io_t* aio, ain_event_t** evtarray, size_t buf_size)
+void ain_register_io_events(ain_io_t *aio, ain_event_t **evtarray, size_t buf_size)
+{
+    //nothing todo on windows
+}
+
+ain_result_t ain_register_io_events_handle(ain_io_t* aio, ain_event_t** evtarray, size_t buf_size)
 {
 	for (size_t i = 0; i < buf_size; i++) {
 		AIN_ASSERT_ERR(CreateIoCompletionPort((HANDLE)evtarray[i]->fd, aio->iocp,
@@ -48,14 +53,14 @@ ain_result_t ain_wait_io_events(ain_io_t* aio, uint32_t timeout)
 		if (STATUS_WAIT_0 != ov_array[i].lpOverlapped->Internal)
 		{
 			evt->error = 1;
-			evt->_errno = (ain_result_t)ov_array[i].lpOverlapped->Internal;
-			if (evt->_errno == STATUS_PENDING)
-				evt->_errno = AIN_IO_PENDING;
+			evt->res = (ain_result_t)ov_array[i].lpOverlapped->Internal;
+			if (evt->res == STATUS_PENDING)
+				evt->res = AIN_IO_PENDING;
 		}
 		else
 		{
 			evt->error = 0;
-			evt->_errno = 0;
+			evt->res = 0;
 		}
 		evt->buf_size = ov_array[i].dwNumberOfBytesTransferred;
 		evt->handler(evt);

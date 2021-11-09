@@ -12,6 +12,8 @@ struct _ain_conn_t {
 	ain_event_t			*write_evt;
 	time_t				time;
 	ain_proto_data_t	proto;
+	struct sockaddr		client_addr;
+	socklen_t           client_addrlen;    /* size of sockaddr */
 };
 
 ain_result_t ain_conn_init(ain_conn_t* conn, ain_sock_t* ls);

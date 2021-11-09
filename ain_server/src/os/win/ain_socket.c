@@ -102,6 +102,7 @@ ain_result_t ain_socket_onaccept(ain_event_t* evt)
         &lsaddr, &lsaddrlen,
         &rsaddr, &rsaddrlen);
     conn->connected = 1;
+    memcpy(&conn->client_addr, rsaddr, rsaddrlen);
     return ain_socket_read(evt);
 }
 

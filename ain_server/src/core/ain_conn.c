@@ -15,8 +15,9 @@
 
 ain_result_t ain_conn_init(ain_conn_t* conn, ain_sock_t* ls)
 {
-	conn->fd = (ain_fd_t)-1;
+	conn->fd = INVALID_SOCKET;
 	conn->ls = ls;
+	conn->client_addrlen = ls->sockaddrlen;
 	conn->proto.proto_handler = ain_proto_get_type(&ls->uri);
 	return AIN_OK;
 }
@@ -24,20 +25,25 @@ ain_result_t ain_conn_init(ain_conn_t* conn, ain_sock_t* ls)
 ain_result_t ain_conn_accept(ain_conn_t* conn)
 {
 	if(!conn->read_evt)
-		conn->read_evt = ain_pool_alloc(conn->ls->wdata->pool, 1);
-
-	conn->fd = ain_socket_create(conn->ls->sockaddr.sa_family, conn->ls->socktype, 0);
-	AIN_ASSERT_ERR(conn->fd != (ain_fd_t)-1)
-	conn->read_evt->fd = conn->fd;
+		conn->read_evt = ain_event_alloc(conn->ls->wdata->pool, sizeof(ain_conn_t*), 
+												AIN_DEFAULT_EVT_SIZE, 1);
 	conn->connected = 0;
-	conn->read_evt->data_size = sizeof(ain_conn_t*);
 	*(ain_conn_t**)EVENT_DATA(conn->read_evt) = conn;
+
+#ifdef _MSC_VER
+	conn->fd = ain_socket_create(conn->ls->sockaddr.sa_family, conn->ls->socktype, 0);
+	AIN_ASSERT_ERR(conn->fd != INVALID_SOCKET)
+	conn->read_evt->fd = conn->fd;
+#elif __GNUC__	
+	ain_register_io_events(conn->ls->wdata->ioqe, &conn->read_evt, 1);
+#endif	
+
 	if (AIN_OK != ain_socket_accept(conn->read_evt))
 	{
 		ain_conn_close(conn);
 		return AIN_ERROR;
 	}
-	if (AIN_OK != ain_register_io_events(conn->ls->wdata->ioqe, &conn->read_evt, 1))
+	if (AIN_OK != ain_register_io_events_handle(conn->ls->wdata->ioqe, &conn->read_evt, 1))
 	{
 		ain_conn_close(conn);
 		return AIN_ERROR;
@@ -47,8 +53,12 @@ ain_result_t ain_conn_accept(ain_conn_t* conn)
 
 void ain_conn_close(ain_conn_t* conn)
 {
-	ain_socket_close_grace(conn->fd);
-	conn->fd = (ain_fd_t)-1;
+	if(conn->fd != INVALID_SOCKET)
+	{
+		// printf("[%d] ain_conn_close\n", conn->fd);
+		ain_socket_close_grace(conn->fd);
+		conn->fd = INVALID_SOCKET;
+	}
 	conn->time = conn->ls->wdata->time;
 	if (conn->connected) {
 		conn->proto.proto_handler(conn, NULL, 0);
@@ -59,7 +69,7 @@ void ain_conn_close(ain_conn_t* conn)
 ain_result_t ain_conn_onread(ain_event_t* evt)
 {
 	ain_conn_t* conn = *(ain_conn_t**)EVENT_DATA(evt);
-	if (evt->buf_size == 0 || (evt->error && evt->_errno != AIN_IO_PENDING))
+	if (evt->buf_size == 0 || (evt->error && evt->res != AIN_IO_PENDING))
 	{
 		ain_conn_close(conn);
 		return evt->error ? AIN_ERROR : AIN_OK;

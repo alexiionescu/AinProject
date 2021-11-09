@@ -1,6 +1,6 @@
-**/output
-**/bin
-**/lib
+**/output/
+**/bin/
+**/lib/
 
 **/config_site.h
 **/config.h

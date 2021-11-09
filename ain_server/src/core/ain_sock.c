@@ -42,7 +42,6 @@ ain_listeners_t* ain_listeners_open(ain_conf_t* conf)
 			&ls->sockaddr, ls->sockaddrlen);
 
 		ain_listen(ls, conf->ls_backlog);
-		
 	}
 	return lsdata;
 }
@@ -52,7 +51,7 @@ ain_result_t ain_listen(ain_sock_t* ls, int backlog)
 	ls->fd = (ain_fd_t)ain_socket_create(ls->sockaddr.sa_family, ls->socktype, 0);
 	AIN_ASSERT_ERR(ls->fd != (ain_fd_t)-1);
 	int reuseaddr = 1;
-	AIN_ASSERT_ERR(-1 != setsockopt(ls->fd, SOL_SOCKET, SO_REUSEADDR,
+	AIN_ASSERT_ERR(-1 != setsockopt(ls->fd, SOL_SOCKET, SO_REUSEPORT,
 		(const void*)&reuseaddr, sizeof(int)));
 	AIN_ASSERT_ERR(-1 != bind(ls->fd, &ls->sockaddr, ls->sockaddrlen));
 	AIN_ASSERT_ERR(-1 != listen(ls->fd, backlog));

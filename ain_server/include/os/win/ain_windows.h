@@ -44,7 +44,14 @@
 #define  NOMCX             // -Modem Configuration Extensions
 #include <windows.h>
 
+#define SO_REUSEPORT 	SO_REUSEADDR
+#define SIGINT			CTRL_C_EVENT
 
+struct iovec
+{
+	void *iov_base;	/* Pointer to data.  */
+	size_t iov_len;	/* Length of data.  */
+};
 #ifndef _AIN_USE_SOCKETS_
 #define AIN_ERRNO			GetLastError()
 #else

@@ -163,9 +163,9 @@ ain_result_t on_http(ain_conn_t* conn, uint8_t* buf, uint32_t size)
 	}
 	conn->keep_alive = 1;
 	if (!conn->write_evt)
-		//conn->write_evt = ain_pool_alloc(conn->pool, 1);
+	{	
 		testHTMLGet(conn, 200); //dummy write event response
-
+	}
 	return AIN_OK;
 }
 

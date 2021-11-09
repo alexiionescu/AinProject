@@ -164,11 +164,8 @@ uint32_t testHTMLGet(ain_conn_t* conn, uint32_t lines)
 	
 	uint32_t req = size + sizeof(_html_response_antet) + 300;
 	AIN_BYTES_TO_PAGES(req);
-	ain_event_t * evt = ain_pool_alloc(conn->ls->wdata->pool, req);
-	evt->extrasize = req - 1;
-	evt->data_size = sizeof(ain_conn_t*);
+	ain_event_t * evt = ain_event_alloc(conn->ls->wdata->pool, sizeof(ain_conn_t*), req, 1);
 	*(ain_conn_t**)EVENT_DATA(evt) = conn;
-	
 
 	uint8_t * buf = EVENT_BUFFER(evt);
 	evt->buf_size = 0;
@@ -198,8 +195,10 @@ uint32_t testHTMLGet(ain_conn_t* conn, uint32_t lines)
 	memcpy(buf, _html_doc_end, written);
 	buf += written;
 	evt->buf_size += written;
-
+	
+	evt->iov[0].iov_len = evt->buf_size;
 	conn->write_evt = evt;
-
+	ain_register_io_events(conn->ls->wdata->ioqe, &conn->write_evt, 1);
+	// printf("[%d] testHTMLGet %zu bytes\n", conn->fd, evt->buf_size);
 	return 0;
 }

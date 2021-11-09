@@ -3,7 +3,7 @@
 #include "config.h"
 
 #ifndef AIN_DEFAULT_EVT_SIZE
-#define AIN_DEFAULT_EVT_SIZE 1	
+#define AIN_DEFAULT_EVT_SIZE 1	//default buffer pages for an event
 #endif
 
 
@@ -24,8 +24,12 @@
 #endif
 
 #ifndef AIN_WORKER_CONNECTIONS
-#define AIN_WORKER_CONNECTIONS 4096 
+#define AIN_WORKER_CONNECTIONS 512 
 // total no of connections (sockets) for all listeners
+#endif
+
+#ifndef AIN_DEFAULT_WORKERS
+#define AIN_DEFAULT_WORKERS 0 //0 for core count
 #endif
 
 #ifndef AIN_MGMT_CHILD_ADDRESS

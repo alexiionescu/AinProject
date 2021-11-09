@@ -44,7 +44,7 @@ typedef struct _ain_proto_data_t ain_proto_data_t;
 
 #define AIN_ASSERT_START(cond) do { if(!(cond)) { \
 					int err = (int)AIN_ERRNO; \
-					fprintf(stderr,"%s:%d error %d\n",__FILE__, __LINE__, err); \
+					fprintf(stderr,"%s:%d error %d %s\n",__FILE__, __LINE__, err, strerror(err)); \
 					AIN_ASSERT_CONTINUE;
 #define AIN_ASSERT_END  } } while(0);
 

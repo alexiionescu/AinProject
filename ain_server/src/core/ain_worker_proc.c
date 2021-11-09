@@ -13,7 +13,6 @@
 
 ain_result_t ain_listen_event(ain_event_t* evt)
 {
-	(evt);
 	return AIN_OK;
 }
 
@@ -48,10 +47,10 @@ ain_result_t ain_worker_proc(void* data) {
 			if (ls->wdata != wdata)
 				continue;
 
-			ain_event_t* lsevt = ain_pool_alloc(wdata->pool, 1);
+			ain_event_t* lsevt = ain_event_alloc(wdata->pool, 0, 0, 0);
 			lsevt->fd = ls->fd;
 			lsevt->handler = ain_listen_event;
-			ain_register_io_events(wdata->ioqe, &lsevt, 1);
+			ain_register_io_events_handle(wdata->ioqe, &lsevt, 1);
 
 			for (size_t c = 0; c < ls->conn_size; c++)
 			{
@@ -78,7 +77,7 @@ ain_result_t ain_worker_proc(void* data) {
 
 					for (size_t c = 0; c < ls->conn_size; c++)
 					{
-						if (conn->fd == (ain_fd_t)-1 
+						if (conn->fd == INVALID_SOCKET 
 								&& wdata->time - conn->time > 0)
 							ain_conn_accept(conn); //re-use closed socket
 						else if (conn->keep_alive && 

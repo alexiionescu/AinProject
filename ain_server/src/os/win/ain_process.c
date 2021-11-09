@@ -10,6 +10,11 @@ struct _ain_process_t {
 	DWORD threadId;
 };
 
+void ain_set_signal(ain_sighandler_t handler)
+{
+    SetConsoleCtrlHandler(handler, TRUE);
+}
+
 ain_process_t* ain_process_fork()
 {
 	ain_system_info_t* sysinfo = ain_get_sys_info();
