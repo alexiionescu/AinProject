@@ -30,7 +30,7 @@ ain_worker_t* ain_create_worker(ain_worker_proc_t proc, void* data, uint32_t fla
 
 
 
-void ain_release_worker(ain_worker_t*)
+void ain_release_worker(ain_worker_t* worker)
 {
 
 }
