@@ -17,6 +17,6 @@ struct _ain_listeners_t {
 	uint16_t		lls_size;
 };
 
-ain_listeners_t* ain_listeners_open(ain_conf_t* conf);
+ain_listeners_t* ain_listeners_conf(ain_conf_t* conf);
 ain_result_t ain_listen(ain_sock_t* ls, int back_log);
 void ain_listeners_close(ain_listeners_t* lsdata);

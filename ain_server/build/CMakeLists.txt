@@ -1,14 +1,19 @@
 cmake_minimum_required(VERSION 3.13)
 project(ain_server C)
 
-set(CMAKE_C_STANDARD 11)
-SET(CMAKE_C_FLAGS "-Wall")
+
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/../lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/../lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/../bin)
 
 include_directories(${PROJECT_SOURCE_DIR}/../include)
+configure_file(${PROJECT_SOURCE_DIR}/../include/config.h.in 
+               ${PROJECT_SOURCE_DIR}/../include/config.h)
+
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/../include/config_site.h)
+    file(WRITE ${PROJECT_SOURCE_DIR}/../include/config_site.h)
+endif()
 
 file(GLOB CoreSrc ../src/core/*.c)
 file(GLOB OsSrc ../src/os/*.c)
