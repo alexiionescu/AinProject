@@ -31,7 +31,7 @@ ain_result_t ain_conn_accept(ain_conn_t *conn) {
 #ifdef _MSC_VER
   conn->fd =
       ain_socket_create(conn->ls->sockaddr.sa_family, conn->ls->socktype, 0);
-  AIN_ASSERT_ERR(conn->fd != INVALID_SOCKET)
+  AIN_ASSERT_ERR(conn->fd != INVALID_SOCKET);
   conn->read_evt->fd = conn->fd;
 #elif __GNUC__
   ain_register_io_events(conn->ls->wdata->ioqe, &conn->read_evt, 1);

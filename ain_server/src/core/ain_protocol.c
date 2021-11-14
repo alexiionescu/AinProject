@@ -119,7 +119,7 @@ uint16_t ain_proto_get_default_port(uint8_t *scheme, size_t size) {
 
 extern uint32_t testHTMLGet(ain_conn_t *conn, uint32_t lines);
 
-ain_result_t on_http(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
+ain_result_t on_http(ain_conn_t *conn, uint8_t *buf, size_t size) {
   if (!size) {
     return AIN_OK;  // connection was closed, cleanup data
   }
@@ -130,7 +130,7 @@ ain_result_t on_http(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
   return AIN_OK;
 }
 
-ain_result_t on_ain(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
+ain_result_t on_ain(ain_conn_t *conn, uint8_t *buf, size_t size) {
   if (!size) {
     return AIN_OK;  // connection was closed, cleanup data
   }
@@ -141,7 +141,7 @@ ain_result_t on_ain(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
   return AIN_ERROR;
 }
 
-ain_result_t on_sip(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
+ain_result_t on_sip(ain_conn_t *conn, uint8_t *buf, size_t size) {
   if (!size) {
     return AIN_OK;  // connection was closed, cleanup data
   }
@@ -149,7 +149,7 @@ ain_result_t on_sip(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
   return AIN_IO_PENDING;
 }
 
-ain_result_t on_proto_none(ain_conn_t *conn, uint8_t *buf, uint32_t size) {
+ain_result_t on_proto_none(ain_conn_t *conn, uint8_t *buf, size_t size) {
   return AIN_ERROR;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 typedef ain_result_t(*protocol_handler_t)(ain_conn_t* conn, 
-											uint8_t* buf, uint32_t size);
+											uint8_t* buf, size_t size);
 struct _ain_proto_data_t {
 	protocol_handler_t  proto_handler;
 };

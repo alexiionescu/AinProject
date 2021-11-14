@@ -122,7 +122,7 @@ ain_result_t ain_socket_write(ain_event_t *evt) {
   DWORD dwSentBytes = 0;
   WSABUF DataBuf;
   DataBuf.buf = (CHAR *)EVENT_BUFFER(evt);
-  DataBuf.len = evt->buf_size;
+  DataBuf.len = (ULONG)evt->buf_size;
   DWORD Flags = 0;
   evt->handler = ain_conn_onwrite;
   memset(evt, 0, sizeof(OVERLAPPED));

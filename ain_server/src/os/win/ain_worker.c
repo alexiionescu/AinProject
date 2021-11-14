@@ -28,4 +28,4 @@ ain_worker_t *ain_create_worker(ain_worker_proc_t proc, void *data,
   return _w;
 }
 
-void ain_release_worker(ain_worker_t *worker) {}
+void ain_release_worker(ain_worker_t *_worker) {}

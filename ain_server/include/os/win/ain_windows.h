@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable : 4996 5105)
 #include <WinSock2.h>
 #include <mswsock.h>
 #include <ws2tcpip.h>
